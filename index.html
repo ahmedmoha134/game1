@@ -18,7 +18,7 @@
     }
     .game {
       width: min(900px, 100%);
-      background: rgba(255, 255, 255, 0.8);
+      background: rgba(255, 255, 255, 0.82);
       border: 4px solid #7bc8ff;
       border-radius: 24px;
       box-shadow: 0 12px 32px rgba(0,0,0,0.15);
@@ -157,6 +157,71 @@
 
   <script>
     const app = document.getElementById("game");
+
+    let audioCtx = null;
+
+    function ensureAudio() {
+      const AudioCtor = window.AudioContext || window.webkitAudioContext;
+      if (!AudioCtor) return;
+      if (!audioCtx) {
+        audioCtx = new AudioCtor();
+      }
+      if (audioCtx.state === "suspended") {
+        audioCtx.resume();
+      }
+    }
+
+    function playTone(frequency, duration, type = "sine", volume = 0.08, startTime = 0) {
+      if (!audioCtx) return;
+      const oscillator = audioCtx.createOscillator();
+      const gainNode = audioCtx.createGain();
+
+      oscillator.type = type;
+      oscillator.frequency.value = frequency;
+
+      gainNode.gain.setValueAtTime(0.0001, audioCtx.currentTime + startTime);
+      gainNode.gain.exponentialRampToValueAtTime(volume, audioCtx.currentTime + startTime + 0.02);
+      gainNode.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + startTime + duration);
+
+      oscillator.connect(gainNode);
+      gainNode.connect(audioCtx.destination);
+
+      oscillator.start(audioCtx.currentTime + startTime);
+      oscillator.stop(audioCtx.currentTime + startTime + duration);
+    }
+
+    function playSuccessSound() {
+      ensureAudio();
+      const notes = [523.25, 659.25, 783.99];
+      notes.forEach((freq, index) => {
+        playTone(freq, 0.18, "triangle", 0.06, index * 0.12);
+      });
+    }
+
+    function playErrorSound() {
+      ensureAudio();
+      const notes = [220, 180, 140];
+      notes.forEach((freq, index) => {
+        playTone(freq, 0.18, "sawtooth", 0.06, index * 0.1);
+      });
+    }
+
+    function playLevelCompleteSound() {
+      ensureAudio();
+      const notes = [392, 523.25, 659.25, 783.99];
+      notes.forEach((freq, index) => {
+        playTone(freq, 0.19, "square", 0.05, index * 0.13);
+      });
+    }
+
+    function playFinishSound() {
+      ensureAudio();
+      const notes = [523.25, 659.25, 783.99, 1046.5];
+      notes.forEach((freq, index) => {
+        playTone(freq, 0.16, "triangle", 0.07, index * 0.1);
+      });
+    }
+
     const levels = [
       {
         title: "المستوى 1: اكتشف الكلمات",
@@ -201,6 +266,7 @@
     }
 
     function startGame() {
+      ensureAudio();
       state.currentLevel = 0;
       state.score = 0;
       state.correctSelections = [];
@@ -233,32 +299,26 @@
 
     function renderSelectLevel(level) {
       const cards = level.choices.map(item => {
-        const isCorrect = level.correct.includes(item);
         return `
-          <button class="card" data-word="${item}" onclick="handleSelectAnswer('${item}', ${isCorrect})">
+          <button class="card" data-word="${item}" onclick="handleSelectAnswer('${item}', ${level.correct.includes(item)})">
             ${item}
           </button>
         `;
       }).join("");
 
-      return `
-        <div class="grid">${cards}</div>
-      `;
+      return `<div class="grid">${cards}</div>`;
     }
 
     function renderMultiSelectLevel(level) {
       const cards = level.choices.map(item => {
-        const isCorrect = level.correct.includes(item);
         return `
-          <button class="card" data-word="${item}" onclick="handleMultiSelect('${item}', ${isCorrect})">
+          <button class="card" data-word="${item}" onclick="handleMultiSelect('${item}', ${level.correct.includes(item)})">
             ${item}
           </button>
         `;
       }).join("");
 
-      return `
-        <div class="grid">${cards}</div>
-      `;
+      return `<div class="grid">${cards}</div>`;
     }
 
     function renderBuildLevel(level) {
@@ -282,18 +342,22 @@
         card.disabled = true;
         state.score += 10;
         state.correctSelections.push(word);
+        playSuccessSound();
 
         if (state.correctSelections.length === levels[0].correct.length) {
+          playLevelCompleteSound();
+          document.querySelector(".message").textContent = "أحسنت! لقد نجحت في المستوى الأول";
           setTimeout(() => {
             state.currentLevel++;
             state.correctSelections = [];
             renderLevel();
-          }, 700);
+          }, 1000);
         } else {
           document.querySelector(".message").textContent = "أحسنت! هذا صحيح";
         }
       } else {
         card.classList.add("wrong");
+        playErrorSound();
         setTimeout(() => card.classList.remove("wrong"), 400);
         document.querySelector(".message").textContent = "هذه الكلمة لا تبدأ بحرف الكاف، حاول مرة أخرى!";
       }
@@ -312,8 +376,10 @@
         card.classList.add("selected");
         state.score += 10;
         state.correctSelections.push(word);
+        playSuccessSound();
       } else {
         card.classList.add("wrong");
+        playErrorSound();
         setTimeout(() => card.classList.remove("wrong"), 400);
       }
 
@@ -321,6 +387,7 @@
       const allFound = state.correctSelections.length === totalCorrect;
 
       if (allFound) {
+        playLevelCompleteSound();
         document.querySelector(".message").textContent = "ممتاز! جميع الكلمات صحيحة";
         setTimeout(() => {
           state.currentLevel++;
@@ -344,9 +411,9 @@
       const next = current + char;
       answerBox.textContent = next;
 
-      const nextMessage = next === target ? "رائع! أنت بنيت الكلمة بشكل صحيح" : "";
-      if (nextMessage) {
-        document.querySelector(".message").textContent = nextMessage;
+      if (next === target) {
+        playSuccessSound();
+        document.querySelector(".message").textContent = "رائع! أنت بنيت الكلمة بشكل صحيح";
       }
     }
 
@@ -357,18 +424,21 @@
 
       if (currentWord === target) {
         state.score += 20;
+        playLevelCompleteSound();
         document.querySelector(".message").textContent = "مبروك! لقد نجحت في بناء كلمة كوب";
         setTimeout(() => {
           state.currentLevel++;
           renderLevel();
         }, 1000);
       } else {
+        playErrorSound();
         document.querySelector(".message").textContent = "الكلمة غير صحيحة، حاول مرة أخرى";
         answerBox.textContent = "";
       }
     }
 
     function renderFinish() {
+      playFinishSound();
       app.innerHTML = `
         <div class="title">أحسنت! 🎉</div>
         <div class="subtitle">لقد انتهيت من جميع المستويات بنجاح</div>
