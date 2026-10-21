@@ -7,7 +7,6 @@
   <style>
     :root{
       --primary:#0f6bb5;
-      --secondary:#ffd95a;
       --success:#34c27a;
       --danger:#ff5a6f;
       --bg1:#eafcff;
@@ -15,21 +14,16 @@
       --bg3:#ebffe8;
       --text:#1c2a36;
       --muted:#465b6e;
-      --card:#ffffff;
       --shadow:0 18px 40px rgba(15, 38, 52, 0.12);
-      --radius:24px;
     }
-
     *{ box-sizing:border-box; }
-
     html, body{
       margin:0;
       min-height:100%;
-      font-family:"Tahoma","Arial","sans-serif";
+      font-family:Tahoma, Arial, sans-serif;
       background:linear-gradient(135deg, var(--bg1), var(--bg2), var(--bg3));
       color:var(--text);
     }
-
     body{
       min-height:100vh;
       display:flex;
@@ -37,7 +31,6 @@
       align-items:center;
       padding:18px;
     }
-
     .game-shell{
       width:min(1000px,100%);
       background:rgba(255,255,255,0.86);
@@ -48,7 +41,6 @@
       position:relative;
       overflow:hidden;
     }
-
     .game-shell::before,
     .game-shell::after{
       content:"";
@@ -59,22 +51,9 @@
       background:rgba(118,200,255,0.1);
       z-index:0;
     }
-
-    .game-shell::before{
-      top:-90px;
-      right:-40px;
-    }
-
-    .game-shell::after{
-      bottom:-100px;
-      left:-60px;
-    }
-
-    .content{
-      position:relative;
-      z-index:1;
-    }
-
+    .game-shell::before{ top:-90px; right:-40px; }
+    .game-shell::after{ bottom:-100px; left:-60px; }
+    .content{ position:relative; z-index:1; }
     .welcome{
       text-align:center;
       font-size:clamp(28px,4vw,54px);
@@ -83,7 +62,6 @@
       margin-bottom:12px;
       text-shadow:2px 2px 0 #fff;
     }
-
     .title{
       text-align:center;
       font-size:clamp(24px,3vw,42px);
@@ -91,14 +69,12 @@
       color:#0c4d82;
       margin:12px 0 10px;
     }
-
     .subtitle{
       text-align:center;
       font-size:clamp(18px,2vw,28px);
       color:var(--muted);
       margin-bottom:18px;
     }
-
     .topbar{
       display:flex;
       justify-content:space-between;
@@ -107,7 +83,6 @@
       flex-wrap:wrap;
       margin-bottom:16px;
     }
-
     .badge{
       background:#edfaff;
       border:2px solid #92d4ff;
@@ -117,7 +92,6 @@
       font-weight:bold;
       font-size:18px;
     }
-
     .timer-wrap{
       display:flex;
       align-items:center;
@@ -130,7 +104,6 @@
       font-weight:bold;
       font-size:18px;
     }
-
     .timer-dot{
       width:16px;
       height:16px;
@@ -139,13 +112,11 @@
       box-shadow:0 0 0 5px rgba(255,183,3,0.15);
       animation:pulse 1s infinite;
     }
-
     @keyframes pulse{
       0%{transform:scale(1); opacity:1;}
       50%{transform:scale(1.2); opacity:0.8;}
       100%{transform:scale(1); opacity:1;}
     }
-
     .progress{
       width:100%;
       height:18px;
@@ -155,14 +126,12 @@
       overflow:hidden;
       margin-bottom:18px;
     }
-
     .progress-bar{
       height:100%;
       background:linear-gradient(90deg,#67d3d8,#62d3a6,#ffd166);
       width:100%;
       transition:width 1s linear;
     }
-
     .message{
       min-height:54px;
       display:flex;
@@ -174,14 +143,12 @@
       color:#0d5f3d;
       margin:8px 0 18px;
     }
-
     .grid{
       display:grid;
       grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
       gap:16px;
       margin-top:10px;
     }
-
     .card{
       background:linear-gradient(180deg,#f7fdff,#edf7ff);
       border:3px solid #85ccff;
@@ -189,37 +156,28 @@
       padding:18px 14px;
       font-size:28px;
       font-weight:bold;
+      font-family:inherit;
       color:#1a4570;
       cursor:pointer;
       transition:0.2s ease;
       box-shadow:0 6px 0 rgba(76,150,216,0.18);
     }
-
     .card:hover{ transform:translateY(-2px); }
-
     .card.correct{
       background:linear-gradient(180deg,#dfffe9,#caefd9);
       border-color:var(--success);
     }
-
     .card.wrong{
       background:linear-gradient(180deg,#ffe0e7,#ffc7d6);
       border-color:var(--danger);
       animation:shake 0.4s ease;
     }
-
-    .card.selected{
-      background:linear-gradient(180deg,#fff6c9,#ffe89b);
-      border-color:#efb92d;
-    }
-
     @keyframes shake{
-      0%,100{transform:translateX(0);}
+      0%,100%{transform:translateX(0);}
       25%{transform:translateX(-8px);}
       50%{transform:translateX(8px);}
       75%{transform:translateX(-5px);}
     }
-
     .row{
       display:flex;
       justify-content:center;
@@ -228,7 +186,6 @@
       gap:12px;
       margin:12px 0;
     }
-
     .btn{
       background:linear-gradient(#ffe56b,#ffc93d);
       border:none;
@@ -236,33 +193,21 @@
       color:#24313d;
       font-size:22px;
       font-weight:bold;
+      font-family:inherit;
       padding:14px 24px;
       cursor:pointer;
       box-shadow:0 6px 0 #d29d00;
       transition:0.2s ease;
     }
-
     .btn:active{
       transform:translateY(2px);
       box-shadow:0 4px 0 #d29d00;
     }
-
-    .mini-btn{
+    .btn.light{
       background:#edf9ff;
-      border:2px solid #8ecfff;
-      border-radius:14px;
-      padding:12px 18px;
-      font-size:18px;
-      font-weight:bold;
+      box-shadow:0 6px 0 #8ecfff;
       color:#0d4d82;
-      cursor:pointer;
     }
-
-    .mini-btn.selected{
-      background:#fff3b8;
-      border-color:#f0b82e;
-    }
-
     .letter-row{
       display:flex;
       justify-content:center;
@@ -270,7 +215,6 @@
       gap:12px;
       margin:18px 0;
     }
-
     .letter-btn{
       width:68px;
       height:68px;
@@ -280,9 +224,9 @@
       color:#0b4e7e;
       font-size:30px;
       font-weight:bold;
+      font-family:inherit;
       cursor:pointer;
     }
-
     .answer-box{
       min-height:88px;
       background:#f3fbff;
@@ -298,14 +242,12 @@
       padding:14px;
       margin:18px 0;
     }
-
     .memory-grid{
       display:grid;
-      grid-template-columns:repeat(4, minmax(110px, 1fr));
+      grid-template-columns:repeat(4, minmax(80px, 1fr));
       gap:12px;
       margin-top:12px;
     }
-
     .memory-card{
       background:linear-gradient(180deg,#f7fbff,#edf6ff);
       border:3px solid #7fcaff;
@@ -316,48 +258,28 @@
       justify-content:center;
       font-size:28px;
       font-weight:bold;
+      font-family:inherit;
       color:#1b4667;
       cursor:pointer;
       transition:0.2s ease;
     }
-
     .memory-card.flipped{
       background:linear-gradient(180deg,#deffe6,#c9f3d7);
       border-color:#4ec57a;
     }
-
     .emoji{
       text-align:center;
       font-size:52px;
       margin:18px 0;
     }
-
-    .hidden{
-      display:none;
-    }
-
     @media (max-width: 700px) {
-      .game-shell{
-        padding:18px 14px;
-      }
-      .topbar{
-        justify-content:center;
-      }
-      .badge, .timer-wrap{
-        width:100%;
-        justify-content:center;
-      }
-      .card{
-        font-size:22px;
-      }
-      .btn{
-        font-size:18px;
-      }
-      .letter-btn{
-        width:58px;
-        height:58px;
-        font-size:26px;
-      }
+      .game-shell{ padding:18px 14px; }
+      .topbar{ justify-content:center; }
+      .badge, .timer-wrap{ width:100%; justify-content:center; }
+      .card{ font-size:22px; }
+      .btn{ font-size:18px; }
+      .letter-btn{ width:58px; height:58px; font-size:26px; }
+      .memory-card{ font-size:22px; min-height:90px; }
     }
   </style>
 </head>
@@ -380,15 +302,15 @@
         prompt: "اختر كل الكلمات التي تحتوي على حرف الكاف في أي مكان",
         type: "chooseWords",
         choices: ["كوب", "مكتبة", "بيت", "شجرة", "قلم", "كرة", "مكتوب", "نافذة"],
-        correct: ["كوب", "مكتبة", "قلم", "كرة", "مكتوب"],
+        correct: ["كوب", "مكتبة", "كرة", "مكتوب"],
         message: "ابحث عن الكلمات التي فيها حرف الكاف.",
-        timeoutMessage: "انتهى الوقت! الكلمات الصحيحة هي: كوب، مكتبة، قلم، كرة، مكتوب."
+        timeoutMessage: "انتهى الوقت! الكلمات الصحيحة هي: كوب، مكتبة، كرة، مكتوب."
       },
       {
         title: "المستوى 2: أي كلمة فيها الكاف في الوسط؟",
         prompt: "اختر الكلمة التي يوجد فيها حرف الكاف في الوسط",
         type: "positionQuiz",
-        choices: ["كتاب", "مكتب", "فك", "كوكب"],
+        choices: ["كتاب", "مكتب", "فك", "كرة"],
         correct: "مكتب",
         message: "تذكر: الكاف في كلمة مكتب موجود في الوسط.",
         timeoutMessage: "انتهى الوقت! الجواب الصحيح هو مكتب."
@@ -406,23 +328,23 @@
         title: "المستوى 4: الكلمات التي تنتهي بالكاف",
         prompt: "اختر الكلمات التي تنتهي بحرف الكاف",
         type: "chooseWords",
-        choices: ["فك", "مكتبة", "قلم", "خزف", "مطبخ", "كوكب"],
-        correct: ["فك", "خزف"],
+        choices: ["فك", "مكتبة", "قلم", "سمك", "مطبخ", "كوكب"],
+        correct: ["فك", "سمك"],
         message: "ابحث عن الكلمات التي تنتهي بالكاف.",
-        timeoutMessage: "انتهى الوقت! الكلمات الصحيحة هي: فك، خزف."
+        timeoutMessage: "انتهى الوقت! الكلمات الصحيحة هي: فك، سمك."
       },
       {
         title: "المستوى 5: لعبة الذاكرة",
-        prompt: "جد الأزواج المتطابقة",
+        prompt: "طابق كل صورة مع كلمتها",
         type: "memory",
         pairs: [
           { symbol: "📚", word: "كتاب" },
-          { symbol: "🧩", word: "مكتبة" },
           { symbol: "☕", word: "كوب" },
-          { symbol: "🎒", word: "حقيبة" }
+          { symbol: "⚽", word: "كرة" },
+          { symbol: "🪑", word: "كرسي" }
         ],
-        message: "ابحث عن الكلمات المتطابقة.",
-        timeoutMessage: "انتهى الوقت! استمر في اللعب."
+        message: "افتح بطاقتين: صورة وكلمتها.",
+        timeoutMessage: "انتهى الوقت! انتقل إلى المستوى التالي."
       },
       {
         title: "المستوى 6: صح أم خطأ؟",
@@ -451,10 +373,10 @@
         title: "المستوى 8: اختر الكلمات التي تبدأ بالكاف",
         prompt: "اختر الكلمات التي تبدأ بحرف الكاف",
         type: "chooseWords",
-        choices: ["قلم", "مكتبة", "كرسي", "كتاب", "بيت", "فك"],
-        correct: ["قلم", "كرسي", "كتاب"],
-        message: "تذكر: بعض الكلمات تبدأ بالكاف.",
-        timeoutMessage: "انتهى الوقت! الكلمات الصحيحة هي: قلم، كرسٍ، كتاب."
+        choices: ["قلم", "مكتبة", "كرسي", "كتاب", "بيت", "كوب"],
+        correct: ["كرسي", "كتاب", "كوب"],
+        message: "تذكر: الكاف هنا في أول الكلمة.",
+        timeoutMessage: "انتهى الوقت! الكلمات الصحيحة هي: كرسي، كتاب، كوب."
       },
       {
         title: "المستوى 9: رتب الحروف",
@@ -470,9 +392,9 @@
         prompt: "اختر كل الكلمات التي تحتوي على حرف الكاف",
         type: "chooseWords",
         choices: ["مكتبة", "بيضة", "قلم", "شمس", "فك", "كرسي", "حقيبة", "كتاب"],
-        correct: ["مكتبة", "قلم", "فك", "كرسي", "حقيبة", "كتاب"],
-        message: "هذا الاختبار النهائي! كل كلمة فيها حرف الكاف.",
-        timeoutMessage: "انتهى الوقت! لقد وصلت إلى النهاية."
+        correct: ["مكتبة", "فك", "كرسي", "كتاب"],
+        message: "هذا الاختبار النهائي! ابحث عن كل كلمة فيها حرف الكاف.",
+        timeoutMessage: "انتهى الوقت! الكلمات الصحيحة هي: مكتبة، فك، كرسي، كتاب."
       }
     ];
 
@@ -487,29 +409,21 @@
     function ensureAudio() {
       const AudioCtor = window.AudioContext || window.webkitAudioContext;
       if (!AudioCtor) return;
-      if (!audioCtx) {
-        audioCtx = new AudioCtor();
-      }
-      if (audioCtx.state === "suspended") {
-        audioCtx.resume();
-      }
+      if (!audioCtx) audioCtx = new AudioCtor();
+      if (audioCtx.state === "suspended") audioCtx.resume();
     }
 
     function playTone(freq, duration, type = "sine", volume = 0.08, delay = 0) {
       if (!audioCtx) return;
       const osc = audioCtx.createOscillator();
       const gain = audioCtx.createGain();
-
       osc.type = type;
       osc.frequency.value = freq;
-
       gain.gain.setValueAtTime(0.0001, audioCtx.currentTime + delay);
       gain.gain.exponentialRampToValueAtTime(volume, audioCtx.currentTime + delay + 0.02);
       gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + delay + duration);
-
       osc.connect(gain);
       gain.connect(audioCtx.destination);
-
       osc.start(audioCtx.currentTime + delay);
       osc.stop(audioCtx.currentTime + delay + duration);
     }
@@ -518,25 +432,37 @@
       ensureAudio();
       [523.25, 659.25, 783.99].forEach((f, i) => playTone(f, 0.18, "triangle", 0.06, i * 0.12));
     }
-
     function playError() {
       ensureAudio();
       [220, 180, 140].forEach((f, i) => playTone(f, 0.18, "sawtooth", 0.06, i * 0.09));
     }
-
     function playLevelDone() {
       ensureAudio();
       [392, 523.25, 659.25, 783.99].forEach((f, i) => playTone(f, 0.18, "square", 0.05, i * 0.12));
     }
-
     function playFinish() {
       ensureAudio();
       [523.25, 659.25, 783.99, 1046.5].forEach((f, i) => playTone(f, 0.15, "triangle", 0.07, i * 0.1));
     }
 
+    function setMessage(text) {
+      const msg = document.querySelector(".message");
+      if (msg) msg.textContent = text;
+    }
+
+    // الانتقال الموحد للمستوى التالي: يوقف المؤقت ويقفل المستوى
+    function goNext(delay) {
+      clearInterval(timerId);
+      state.stageLocked = true;
+      setTimeout(() => {
+        state.current += 1;
+        renderStage();
+      }, delay);
+    }
+
     function renderIntro() {
       game.innerHTML = `
-        <div class="welcome">مرحبا ايها الطلاب الشطار!</div>
+        <div class="welcome">مرحبا أيها الطلاب الشطار!</div>
         <div class="title">لعبة حرف الكاف</div>
         <div class="subtitle">الكاف في أول الكلمة، وسطها، وآخرها</div>
         <div class="emoji">🌟📚✨</div>
@@ -550,14 +476,14 @@
       ensureAudio();
       state.current = 0;
       state.score = 0;
-      state.stageLocked = false;
-      state.memoryOpen = [];
-      state.memoryMatched = [];
       renderStage();
     }
 
     function renderStage() {
       clearInterval(timerId);
+      state.stageLocked = false;
+      state.memoryOpen = [];
+      state.memoryMatched = [];
 
       if (state.current >= stages.length) {
         renderFinish();
@@ -578,15 +504,12 @@
               <span id="timerLabel">الوقت المتبقي: 60 ث</span>
             </div>
           </div>
-
           <div class="progress">
             <div class="progress-bar" id="progressBar" style="width:100%;"></div>
           </div>
-
           <div class="title">${stage.title}</div>
           <div class="subtitle">${stage.prompt}</div>
           <div class="message">${stage.message}</div>
-
           ${renderStageContent(stage)}
         </div>
       `;
@@ -596,33 +519,23 @@
 
     function renderStageContent(stage) {
       switch (stage.type) {
-        case "chooseWords":
-          return renderChooseWords(stage);
-        case "positionQuiz":
-          return renderPositionQuiz(stage);
-        case "fillBlank":
-          return renderFillBlank(stage);
-        case "trueFalse":
-          return renderTrueFalse(stage);
-        case "memory":
-          return renderMemory(stage);
-        case "imageQuiz":
-          return renderImageQuiz(stage);
-        case "buildWord":
-          return renderBuildWord(stage);
-        default:
-          return "";
+        case "chooseWords": return renderChooseWords(stage);
+        case "positionQuiz": return renderPositionQuiz(stage);
+        case "fillBlank": return renderFillBlank(stage);
+        case "trueFalse": return renderTrueFalse(stage);
+        case "memory": return renderMemory(stage);
+        case "imageQuiz": return renderImageQuiz(stage);
+        case "buildWord": return renderBuildWord(stage);
+        default: return "";
       }
     }
 
     function startTimer() {
       updateTimerUI();
       timerId = setInterval(() => {
-        const remainingMs = stageDeadline - Date.now();
-        const remaining = Math.max(0, Math.ceil(remainingMs / 1000));
+        const remaining = Math.max(0, Math.ceil((stageDeadline - Date.now()) / 1000));
         stageTime = remaining;
         updateTimerUI();
-
         if (remaining <= 0) {
           clearInterval(timerId);
           handleTimeout();
@@ -632,110 +545,80 @@
 
     function updateTimerUI() {
       const timerLabel = document.getElementById("timerLabel");
-      if (timerLabel) {
-        timerLabel.textContent = `الوقت المتبقي: ${stageTime} ث`;
-      }
-
+      if (timerLabel) timerLabel.textContent = `الوقت المتبقي: ${stageTime} ث`;
       const progressBar = document.getElementById("progressBar");
-      if (progressBar) {
-        const percent = (stageTime / 60) * 100;
-        progressBar.style.width = `${percent}%`;
-      }
+      if (progressBar) progressBar.style.width = `${(stageTime / 60) * 100}%`;
     }
 
     function handleTimeout() {
       const stage = stages[state.current];
-      const msgBox = document.querySelector(".message");
-      if (msgBox) {
-        msgBox.textContent = stage.timeoutMessage || "انتهى الوقت!";
-      }
+      setMessage(stage.timeoutMessage || "انتهى الوقت!");
       playError();
-
-      setTimeout(() => {
-        state.current += 1;
-        renderStage();
-      }, 1500);
+      goNext(1800);
     }
 
+    /* ---------- اختيار الكلمات ---------- */
     function renderChooseWords(stage) {
-      const cards = stage.choices.map(item => {
-        return `
-          <button class="card" data-word="${item}" onclick="handleWordChoice('${item}', ${stage.correct.includes(item)})">
-            ${item}
-          </button>
-        `;
-      }).join("");
-
+      const cards = stage.choices.map(item => `
+        <button class="card" data-word="${item}" onclick="handleWordChoice('${item}')">${item}</button>
+      `).join("");
       return `<div class="grid">${cards}</div>`;
     }
 
-    function handleWordChoice(word, isCorrect) {
+    function handleWordChoice(word) {
       if (state.stageLocked) return;
-
+      const stage = stages[state.current];
       const card = document.querySelector(`[data-word="${word}"]`);
-      if (!card) return;
+      if (!card || card.classList.contains("correct")) return;
 
-      if (isCorrect) {
+      if (stage.correct.includes(word)) {
         card.classList.add("correct");
         state.score += 10;
         playSuccess();
 
-        const stage = stages[state.current];
         const allSelected = stage.correct.every(item => {
           const el = document.querySelector(`[data-word="${item}"]`);
           return el && el.classList.contains("correct");
         });
 
         if (allSelected) {
-          const msg = document.querySelector(".message");
-          if (msg) msg.textContent = "أحسنت! جميع الكلمات الصحيحة.";
+          setMessage("أحسنت! جميع الكلمات الصحيحة.");
           playLevelDone();
-          state.stageLocked = true;
-          setTimeout(() => {
-            state.current += 1;
-            renderStage();
-          }, 1200);
+          goNext(1200);
         } else {
-          const msg = document.querySelector(".message");
-          if (msg) msg.textContent = "أحسنت! هذا صحيح.";
-          state.stageLocked = false;
+          setMessage("أحسنت! هذا صحيح.");
         }
       } else {
         card.classList.add("wrong");
+        setMessage("هذه الكلمة لا تناسب الشرط، حاول مرة أخرى.");
         playError();
         setTimeout(() => card.classList.remove("wrong"), 450);
       }
     }
 
+    /* ---------- موضع الكاف ---------- */
     function renderPositionQuiz(stage) {
-      const buttons = stage.choices.map(item => {
-        return `<button class="btn" onclick="checkPosition('${item}','${stage.correct}')">${item}</button>`;
-      }).join("");
+      const buttons = stage.choices.map(item =>
+        `<button class="btn" onclick="checkPosition('${item}','${stage.correct}')">${item}</button>`
+      ).join("");
       return `<div class="row">${buttons}</div>`;
     }
 
     function checkPosition(selected, correct) {
       if (state.stageLocked) return;
-
       if (selected === correct) {
         state.score += 10;
-        state.stageLocked = true;
         playSuccess();
-        const msg = document.querySelector(".message");
-        if (msg) msg.textContent = "إجابة صحيحة!";
+        setMessage("إجابة صحيحة!");
         playLevelDone();
-
-        setTimeout(() => {
-          state.current += 1;
-          renderStage();
-        }, 1200);
+        goNext(1200);
       } else {
         playError();
-        const msg = document.querySelector(".message");
-        if (msg) msg.textContent = "حاول مرة أخرى. الكاف في كلمة مكتب موجود في الوسط.";
+        setMessage("حاول مرة أخرى. ابحث عن الكلمة التي الكاف فيها في الوسط.");
       }
     }
 
+    /* ---------- أكمل الكلمة ---------- */
     function renderFillBlank(stage) {
       return `
         <div class="answer-box" id="fillAnswerBox">_</div>
@@ -749,31 +632,24 @@
 
     function fillBlank(option, correct) {
       if (state.stageLocked) return;
-
       const box = document.getElementById("fillAnswerBox");
       if (!box) return;
 
-      box.textContent = option;
-
       if (option === correct) {
+        box.textContent = option;
         state.score += 10;
-        state.stageLocked = true;
         playSuccess();
-        const msg = document.querySelector(".message");
-        if (msg) msg.textContent = "إجابة صحيحة!";
+        setMessage("إجابة صحيحة! الكلمة: مكتبة");
         playLevelDone();
-        setTimeout(() => {
-          state.current += 1;
-          renderStage();
-        }, 1200);
+        goNext(1200);
       } else {
         playError();
-        const msg = document.querySelector(".message");
-        if (msg) msg.textContent = "هذه ليست الإجابة الصحيحة. حاول مرة أخرى.";
+        setMessage("هذه ليست الإجابة الصحيحة. حاول مرة أخرى.");
         box.textContent = "_";
       }
     }
 
+    /* ---------- صح أم خطأ ---------- */
     function renderTrueFalse(stage) {
       return `
         <div class="subtitle">${stage.question}</div>
@@ -786,38 +662,19 @@
 
     function checkTrueFalse(choice, answer) {
       if (state.stageLocked) return;
-
       if (choice === answer) {
         state.score += 10;
-        state.stageLocked = true;
         playSuccess();
-        const msg = document.querySelector(".message");
-        if (msg) msg.textContent = "إجابة صحيحة!";
+        setMessage("إجابة صحيحة!");
         playLevelDone();
-        setTimeout(() => {
-          state.current += 1;
-          renderStage();
-        }, 1200);
+        goNext(1200);
       } else {
         playError();
-        const msg = document.querySelector(".message");
-        if (msg) msg.textContent = "العبارة صحيحة. كلمة مكتب فيها الكاف في الوسط.";
+        setMessage("حاول مرة أخرى. فكّر: أين الكاف في كلمة مكتب؟");
       }
     }
 
-    function renderMemory(stage) {
-      const cards = shuffle([...stage.pairs, ...stage.pairs]).map((item, index) => {
-        const key = `${item.word}-${index}`;
-        return `
-          <button class="memory-card" data-card="${key}" data-word="${item.word}" onclick="flipMemoryCard('${key}', '${item.word}')">
-            ?
-          </button>
-        `;
-      }).join("");
-
-      return `<div class="memory-grid">${cards}</div>`;
-    }
-
+    /* ---------- لعبة الذاكرة (صورة + كلمة) ---------- */
     function shuffle(arr) {
       const copy = [...arr];
       for (let i = copy.length - 1; i > 0; i--) {
@@ -827,46 +684,50 @@
       return copy;
     }
 
-    function flipMemoryCard(cardId, word) {
-      if (state.stageLocked) return;
+    function renderMemory(stage) {
+      const deck = [];
+      stage.pairs.forEach((p, i) => {
+        deck.push({ id: `s${i}`, pair: i, text: p.symbol });
+        deck.push({ id: `w${i}`, pair: i, text: p.word });
+      });
+      const cards = shuffle(deck).map(c => `
+        <button class="memory-card" data-card="${c.id}" data-text="${c.text}" onclick="flipMemoryCard('${c.id}', ${c.pair})">?</button>
+      `).join("");
+      return `<div class="memory-grid">${cards}</div>`;
+    }
 
+    function flipMemoryCard(cardId, pair) {
+      if (state.stageLocked) return;
       const card = document.querySelector(`[data-card="${cardId}"]`);
       if (!card || card.classList.contains("flipped")) return;
 
       card.classList.add("flipped");
-      card.textContent = word;
-
-      state.memoryOpen.push({ cardId, word });
+      card.textContent = card.dataset.text;
+      state.memoryOpen.push({ cardId, pair });
 
       if (state.memoryOpen.length === 2) {
         const [a, b] = state.memoryOpen;
         state.stageLocked = true;
 
-        if (a.word === b.word) {
+        if (a.pair === b.pair) {
           state.score += 10;
-          state.memoryMatched.push(a.word);
+          state.memoryMatched.push(a.pair);
           playSuccess();
-          const msg = document.querySelector(".message");
-          if (msg) msg.textContent = "أحسنت! هذا زوج صحيح.";
+          setMessage("أحسنت! هذا زوج صحيح.");
 
           setTimeout(() => {
             state.memoryOpen = [];
-            state.stageLocked = false;
-
             const required = stages[state.current].pairs.length;
             if (state.memoryMatched.length === required) {
               playLevelDone();
-              setTimeout(() => {
-                state.current += 1;
-                renderStage();
-              }, 1200);
+              goNext(1000);
+            } else {
+              state.stageLocked = false;
             }
           }, 600);
         } else {
           playError();
-          const msg = document.querySelector(".message");
-          if (msg) msg.textContent = "هذا ليس نفس الزوج، حاول مرة أخرى.";
-
+          setMessage("هذا ليس نفس الزوج، حاول مرة أخرى.");
           setTimeout(() => {
             state.memoryOpen.forEach(item => {
               const el = document.querySelector(`[data-card="${item.cardId}"]`);
@@ -882,6 +743,7 @@
       }
     }
 
+    /* ---------- اختيار الصورة ---------- */
     function renderImageQuiz(stage) {
       return `
         <div class="row">
@@ -896,26 +758,19 @@
 
     function checkImage(choice, correct) {
       if (state.stageLocked) return;
-
       if (choice === correct) {
         state.score += 10;
-        state.stageLocked = true;
         playSuccess();
-        const msg = document.querySelector(".message");
-        if (msg) msg.textContent = "إجابة صحيحة!";
+        setMessage("إجابة صحيحة!");
         playLevelDone();
-
-        setTimeout(() => {
-          state.current += 1;
-          renderStage();
-        }, 1200);
+        goNext(1200);
       } else {
         playError();
-        const msg = document.querySelector(".message");
-        if (msg) msg.textContent = "حاول مرة أخرى. الاسم الصحيح هو مكتبة.";
+        setMessage("حاول مرة أخرى. هذه الكلمة ليس فيها حرف الكاف.");
       }
     }
 
+    /* ---------- ترتيب الحروف ---------- */
     function renderBuildWord(stage) {
       const letters = stage.letters.map(ch => `
         <button class="letter-btn" onclick="appendLetter('${ch}')">${ch}</button>
@@ -923,52 +778,59 @@
 
       return `
         <div class="letter-row">${letters}</div>
-        <div class="answer-box" id="buildAnswerBox"> </div>
+        <div class="answer-box" id="buildAnswerBox">&nbsp;</div>
         <div class="row">
           <button class="btn" onclick="checkBuildWord('${stage.target}')">تأكيد</button>
+          <button class="btn light" onclick="backspaceLetter()">حذف حرف</button>
+          <button class="btn light" onclick="clearBuild()">مسح</button>
         </div>
       `;
     }
 
     function appendLetter(ch) {
+      if (state.stageLocked) return;
       const box = document.getElementById("buildAnswerBox");
       if (!box) return;
-      const current = box.textContent.trim();
-      box.textContent = current + ch;
+      box.textContent = box.textContent.trim() + ch;
+    }
+
+    function backspaceLetter() {
+      if (state.stageLocked) return;
+      const box = document.getElementById("buildAnswerBox");
+      if (!box) return;
+      const value = box.textContent.trim();
+      box.innerHTML = value.slice(0, -1) || "&nbsp;";
+    }
+
+    function clearBuild() {
+      if (state.stageLocked) return;
+      const box = document.getElementById("buildAnswerBox");
+      if (box) box.innerHTML = "&nbsp;";
     }
 
     function checkBuildWord(target) {
       if (state.stageLocked) return;
-
       const box = document.getElementById("buildAnswerBox");
       if (!box) return;
-
       const value = box.textContent.trim();
 
       if (value === target) {
         state.score += 10;
-        state.stageLocked = true;
         playSuccess();
-        const msg = document.querySelector(".message");
-        if (msg) msg.textContent = "أحسنت! بنيت الكلمة بشكل صحيح.";
+        setMessage("أحسنت! بنيت الكلمة بشكل صحيح.");
         playLevelDone();
-
-        setTimeout(() => {
-          state.current += 1;
-          renderStage();
-        }, 1200);
+        goNext(1200);
       } else {
         playError();
-        const msg = document.querySelector(".message");
-        if (msg) msg.textContent = "الكلمة غير صحيحة. حاول مرة أخرى.";
-        box.textContent = " ";
+        setMessage("الكلمة غير صحيحة. حاول مرة أخرى.");
+        box.innerHTML = "&nbsp;";
       }
     }
 
+    /* ---------- النهاية ---------- */
     function renderFinish() {
       clearInterval(timerId);
       playFinish();
-
       game.innerHTML = `
         <div class="welcome">أحسنت! 🎉</div>
         <div class="title">انتهت رحلة حرف الكاف بنجاح</div>
