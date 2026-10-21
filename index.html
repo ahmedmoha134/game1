@@ -2,7 +2,8 @@
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#eafcff" />
   <title>لعبة حرف الكاف - النسخة الاحترافية</title>
   <style>
     :root{
@@ -24,15 +25,33 @@
       background:linear-gradient(135deg, var(--bg1), var(--bg2), var(--bg3));
       color:var(--text);
     }
+    html{
+      -webkit-text-size-adjust:100%;
+      text-size-adjust:100%;
+      -webkit-tap-highlight-color:transparent;
+    }
     body{
       min-height:100vh;
+      min-height:100dvh;
       display:flex;
       justify-content:center;
       align-items:center;
       padding:18px;
+      padding-top:max(18px, env(safe-area-inset-top));
+      padding-bottom:max(18px, env(safe-area-inset-bottom));
+      padding-left:max(18px, env(safe-area-inset-left));
+      padding-right:max(18px, env(safe-area-inset-right));
+      overflow-x:hidden;
+    }
+    button{
+      touch-action:manipulation;
+      -webkit-user-select:none;
+      user-select:none;
+      min-height:48px;
     }
     .game-shell{
       width:min(1000px,100%);
+      max-width:100%;
       background:rgba(255,255,255,0.86);
       border:4px solid #8ed0ff;
       border-radius:30px;
@@ -162,7 +181,7 @@
       transition:0.2s ease;
       box-shadow:0 6px 0 rgba(76,150,216,0.18);
     }
-    .card:hover{ transform:translateY(-2px); }
+    @media (hover:hover){ .card:hover{ transform:translateY(-2px); } }
     .card.correct{
       background:linear-gradient(180deg,#dfffe9,#caefd9);
       border-color:var(--success);
@@ -272,14 +291,53 @@
       font-size:52px;
       margin:18px 0;
     }
+    /* شاشات كبيرة جداً */
+    @media (min-width: 1200px) {
+      .game-shell{ width:min(1100px,100%); padding:32px; }
+    }
+
+    /* تابلت */
+    @media (max-width: 1024px) {
+      .grid{ grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); }
+      .memory-card{ min-height:100px; }
+    }
+
+    /* هواتف وتابلت صغير */
     @media (max-width: 700px) {
-      .game-shell{ padding:18px 14px; }
-      .topbar{ justify-content:center; }
-      .badge, .timer-wrap{ width:100%; justify-content:center; }
-      .card{ font-size:22px; }
-      .btn{ font-size:18px; }
+      body{ align-items:flex-start; padding:12px; padding-top:max(12px, env(safe-area-inset-top)); }
+      .game-shell{ padding:16px 12px; border-width:3px; border-radius:22px; }
+      .topbar{ justify-content:center; gap:8px; }
+      .badge, .timer-wrap{ width:100%; justify-content:center; font-size:16px; padding:8px 12px; }
+      .message{ font-size:19px; min-height:48px; }
+      .grid{ grid-template-columns:repeat(2,1fr); gap:10px; }
+      .card{ font-size:22px; padding:14px 8px; }
+      .btn{ font-size:18px; padding:12px 18px; }
+      .row .btn{ flex:1 1 140px; }
       .letter-btn{ width:58px; height:58px; font-size:26px; }
-      .memory-card{ font-size:22px; min-height:90px; }
+      .answer-box{ font-size:30px; min-height:72px; }
+      .memory-grid{ grid-template-columns:repeat(4,1fr); gap:8px; }
+      .memory-card{ font-size:20px; min-height:84px; border-radius:14px; }
+      .emoji{ font-size:42px; }
+    }
+
+    /* هواتف صغيرة جداً */
+    @media (max-width: 380px) {
+      .memory-grid{ grid-template-columns:repeat(2,1fr); }
+      .memory-card{ min-height:76px; }
+      .letter-btn{ width:52px; height:52px; font-size:24px; }
+      .card{ font-size:20px; }
+    }
+
+    /* هاتف بوضع أفقي */
+    @media (max-height: 500px) and (orientation: landscape) {
+      body{ align-items:flex-start; }
+      .emoji{ margin:8px 0; font-size:36px; }
+      .memory-card{ min-height:64px; }
+    }
+
+    /* تقليل الحركة لمن يفضل ذلك */
+    @media (prefers-reduced-motion: reduce) {
+      *{ animation:none !important; transition:none !important; }
     }
   </style>
 </head>
