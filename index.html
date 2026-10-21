@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>لعبة حرف الكاف</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Tahoma", "Arial", sans-serif;
+      background: linear-gradient(135deg, #dff7ff, #fdf2d3, #e2f7d4);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .game {
+      width: min(900px, 100%);
+      background: rgba(255, 255, 255, 0.8);
+      border: 4px solid #7bc8ff;
+      border-radius: 24px;
+      box-shadow: 0 12px 32px rgba(0,0,0,0.15);
+      padding: 20px;
+      text-align: center;
+    }
+    .title {
+      font-size: clamp(28px, 4vw, 52px);
+      color: #0d6efd;
+      margin-bottom: 10px;
+      text-shadow: 2px 2px 0 #fff;
+    }
+    .subtitle {
+      font-size: 22px;
+      color: #444;
+      margin-bottom: 20px;
+    }
+    .btn {
+      background: linear-gradient(#ffde59, #ffb703);
+      border: none;
+      color: #2f2f2f;
+      font-size: 24px;
+      font-weight: bold;
+      padding: 14px 28px;
+      border-radius: 18px;
+      cursor: pointer;
+      box-shadow: 0 6px 0 #d89a00;
+      transition: 0.2s;
+      margin: 10px;
+    }
+    .btn:active { transform: translateY(2px); box-shadow: 0 4px 0 #d89a00; }
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+    .badge {
+      background: #dffbff;
+      border: 2px solid #8ad9ff;
+      border-radius: 15px;
+      padding: 10px 16px;
+      font-size: 18px;
+      color: #0a4d8a;
+      font-weight: bold;
+    }
+    .message {
+      min-height: 40px;
+      font-size: 22px;
+      margin: 10px 0 18px;
+      color: #0b5f33;
+      font-weight: bold;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 16px;
+      margin-top: 16px;
+    }
+    .card {
+      background: linear-gradient(180deg, #f9fbff, #edf8ff);
+      border: 3px solid #7fc1ff;
+      border-radius: 18px;
+      padding: 18px 12px;
+      font-size: 28px;
+      cursor: pointer;
+      transition: 0.2s;
+      color: #173f5f;
+      font-weight: bold;
+    }
+    .card:hover { transform: translateY(-2px); background: #f3fbff; }
+    .card.correct {
+      background: linear-gradient(180deg, #dfffe8, #baf0c9);
+      border-color: #46c778;
+    }
+    .card.wrong {
+      background: linear-gradient(180deg, #ffd9d9, #ffc3c3);
+      border-color: #ff7070;
+      animation: shake 0.4s linear;
+    }
+    .card.selected {
+      background: linear-gradient(180deg, #fff0bf, #ffe7a1);
+      border-color: #f1b400;
+    }
+    @keyframes shake {
+      0% { transform: translateX(0); }
+      25% { transform: translateX(-8px); }
+      50% { transform: translateX(8px); }
+      75% { transform: translateX(-6px); }
+      100% { transform: translateX(0); }
+    }
+    .letters {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin: 20px 0;
+    }
+    .letter-btn {
+      width: 70px;
+      height: 70px;
+      border-radius: 18px;
+      border: 3px solid #8ec8ff;
+      background: #f1faff;
+      font-size: 30px;
+      font-weight: bold;
+      color: #0b4e7f;
+      cursor: pointer;
+    }
+    .answer-box {
+      min-height: 80px;
+      background: #f2f9ff;
+      border: 2px dashed #86c9ff;
+      border-radius: 18px;
+      font-size: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #0d4a77;
+      margin: 18px 0;
+      padding: 15px;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .hidden { display: none; }
+    .emoji {
+      font-size: 34px;
+      margin-left: 8px;
+    }
+  </style>
+</head>
+<body>
+  <div class="game" id="game"></div>
+
+  <script>
+    const app = document.getElementById("game");
+    const levels = [
+      {
+        title: "المستوى 1: اكتشف الكلمات",
+        prompt: "اختر الكلمات التي تبدأ بحرف الكاف",
+        type: "select",
+        choices: ["كوب", "كرة", "قطة", "كرة القدم", "شجرة", "كتاب", "بيت", "كيس"],
+        correct: ["كوب", "كرة", "كتاب", "كيس"],
+        message: "اضغط على الكلمات التي تبدأ بحرف الكاف"
+      },
+      {
+        title: "المستوى 2: ابحث عن الكاف",
+        prompt: "اختر كل الكلمات التي تبدأ بحرف الكاف",
+        type: "multi-select",
+        choices: ["تفاحة", "كرسي", "شمس", "كعكة", "سيارة", "كوب", "باب", "كرة"],
+        correct: ["كرسي", "كعكة", "كوب", "كرة"],
+        message: "يجب أن تختار كل الكلمات الصحيحة"
+      },
+      {
+        title: "المستوى 3: اربط الحروف",
+        prompt: "اركب كلمة (كوب) من الحروف المتاحة",
+        type: "build",
+        target: "كوب",
+        letters: ["ك", "و", "ب", "ر", "ي", "ت", "ق"],
+        message: "اضغط على الحروف بالترتيب لتكوين كلمة كوب"
+      }
+    ];
+
+    const state = {
+      currentLevel: 0,
+      score: 0,
+      correctSelections: [],
+      selected: []
+    };
+
+    function renderIntro() {
+      app.innerHTML = `
+        <div class="title">لعبة حرف الكاف</div>
+        <div class="subtitle">مرحبًا! لنساعد القطة في رحلة الكاف</div>
+        <div class="emoji">🐱✨</div>
+        <button class="btn" onclick="startGame()">ابدأ اللعب</button>
+      `;
+    }
+
+    function startGame() {
+      state.currentLevel = 0;
+      state.score = 0;
+      state.correctSelections = [];
+      state.selected = [];
+      renderLevel();
+    }
+
+    function renderLevel() {
+      const level = levels[state.currentLevel];
+      if (!level) {
+        renderFinish();
+        return;
+      }
+
+      app.innerHTML = `
+        <div class="topbar">
+          <div class="badge">المستوى ${state.currentLevel + 1} من ${levels.length}</div>
+          <div class="badge">النقاط: ${state.score}</div>
+        </div>
+
+        <div class="title">${level.title}</div>
+        <div class="subtitle">${level.prompt}</div>
+        <div class="message">${level.message}</div>
+
+        ${level.type === "select" ? renderSelectLevel(level) : ""}
+        ${level.type === "multi-select" ? renderMultiSelectLevel(level) : ""}
+        ${level.type === "build" ? renderBuildLevel(level) : ""}
+      `;
+    }
+
+    function renderSelectLevel(level) {
+      const cards = level.choices.map(item => {
+        const isCorrect = level.correct.includes(item);
+        return `
+          <button class="card" data-word="${item}" onclick="handleSelectAnswer('${item}', ${isCorrect})">
+            ${item}
+          </button>
+        `;
+      }).join("");
+
+      return `
+        <div class="grid">${cards}</div>
+      `;
+    }
+
+    function renderMultiSelectLevel(level) {
+      const cards = level.choices.map(item => {
+        const isCorrect = level.correct.includes(item);
+        return `
+          <button class="card" data-word="${item}" onclick="handleMultiSelect('${item}', ${isCorrect})">
+            ${item}
+          </button>
+        `;
+      }).join("");
+
+      return `
+        <div class="grid">${cards}</div>
+      `;
+    }
+
+    function renderBuildLevel(level) {
+      const letters = level.letters.map((char, index) => `
+        <button class="letter-btn" onclick="handleLetterClick('${char}', ${index})">${char}</button>
+      `).join("");
+
+      return `
+        <div class="letters">${letters}</div>
+        <div class="answer-box" id="answerBox"> </div>
+        <button class="btn" onclick="checkBuildWord()">تأكيد</button>
+      `;
+    }
+
+    function handleSelectAnswer(word, isCorrect) {
+      const card = document.querySelector(`[data-word="${word}"]`);
+      if (!card) return;
+
+      if (isCorrect) {
+        card.classList.add("correct");
+        card.disabled = true;
+        state.score += 10;
+        state.correctSelections.push(word);
+
+        if (state.correctSelections.length === levels[0].correct.length) {
+          setTimeout(() => {
+            state.currentLevel++;
+            state.correctSelections = [];
+            renderLevel();
+          }, 700);
+        } else {
+          document.querySelector(".message").textContent = "أحسنت! هذا صحيح";
+        }
+      } else {
+        card.classList.add("wrong");
+        setTimeout(() => card.classList.remove("wrong"), 400);
+        document.querySelector(".message").textContent = "هذه الكلمة لا تبدأ بحرف الكاف، حاول مرة أخرى!";
+      }
+    }
+
+    function handleMultiSelect(word, isCorrect) {
+      const card = document.querySelector(`[data-word="${word}"]`);
+      if (!card) return;
+
+      if (card.classList.contains("selected")) {
+        card.classList.remove("selected");
+        return;
+      }
+
+      if (isCorrect) {
+        card.classList.add("selected");
+        state.score += 10;
+        state.correctSelections.push(word);
+      } else {
+        card.classList.add("wrong");
+        setTimeout(() => card.classList.remove("wrong"), 400);
+      }
+
+      const totalCorrect = levels[1].correct.length;
+      const allFound = state.correctSelections.length === totalCorrect;
+
+      if (allFound) {
+        document.querySelector(".message").textContent = "ممتاز! جميع الكلمات صحيحة";
+        setTimeout(() => {
+          state.currentLevel++;
+          state.correctSelections = [];
+          renderLevel();
+        }, 900);
+      } else {
+        document.querySelector(".message").textContent = "استمر! ابحث عن الكلمات الصحيحة";
+      }
+    }
+
+    function handleLetterClick(char) {
+      const answerBox = document.getElementById("answerBox");
+      if (!answerBox) return;
+
+      const current = answerBox.textContent.replace(/\s+/g, "");
+      const target = levels[2].target;
+
+      if (current.length >= target.length) return;
+
+      const next = current + char;
+      answerBox.textContent = next;
+
+      const nextMessage = next === target ? "رائع! أنت بنيت الكلمة بشكل صحيح" : "";
+      if (nextMessage) {
+        document.querySelector(".message").textContent = nextMessage;
+      }
+    }
+
+    function checkBuildWord() {
+      const target = levels[2].target;
+      const answerBox = document.getElementById("answerBox");
+      const currentWord = answerBox.textContent.replace(/\s+/g, "");
+
+      if (currentWord === target) {
+        state.score += 20;
+        document.querySelector(".message").textContent = "مبروك! لقد نجحت في بناء كلمة كوب";
+        setTimeout(() => {
+          state.currentLevel++;
+          renderLevel();
+        }, 1000);
+      } else {
+        document.querySelector(".message").textContent = "الكلمة غير صحيحة، حاول مرة أخرى";
+        answerBox.textContent = "";
+      }
+    }
+
+    function renderFinish() {
+      app.innerHTML = `
+        <div class="title">أحسنت! 🎉</div>
+        <div class="subtitle">لقد انتهيت من جميع المستويات بنجاح</div>
+        <div class="emoji">🏆⭐🌟</div>
+        <div class="subtitle">مجموع النقاط: ${state.score}</div>
+        <button class="btn" onclick="startGame()">العب مرة أخرى</button>
+      `;
+    }
+
+    renderIntro();
+  </script>
+</body>
+</html>
